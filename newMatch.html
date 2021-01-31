@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create new Match</title>
+    <style>
+      .container {
+        display: grid;
+        height: 100vh;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 1fr 2fr;
+        grid-template-areas:
+          "banner banner"
+          "create view";
+        grid-gap: 0.1rem;
+      }
+      #newMatch_Id {
+        grid-area: create;
+        /* TEXT */
+
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas:
+          "l1"
+          "l2"
+          "l3"
+          "l4"
+          "l5"
+          "l6"
+          "l7";
+        grid-gap: 0.1rem;
+        /* Gray/03 */
+        color: #676262;
+      }
+      #liveUpdate_Id {
+        grid-area: view;
+        /* TEXT */
+
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas:
+          "r1"
+          "r2"
+          "r3"
+          "r4"
+          "r5"
+          "r6"
+          "r7";
+        grid-gap: 0.1rem;
+        /* Gray/03 */
+        color: #676262;
+      }
+      #clb_Id {
+        display: grid;
+        grid-area: l1;
+      }
+      #homeInput_Id {
+        display: grid;
+        grid-area: l2;
+      }
+      #awayInput_Id {
+        display: grid;
+        grid-area: l3;
+      }
+      #matchName_Id {
+        display: grid;
+        grid-area: l4;
+      }
+      #text1_Id {
+        display: grid;
+        grid-area: l5;
+      }
+
+      #boardType_Id {
+        display: grid;
+        grid-area: l6;
+      }
+      #submit_Id {
+        display: grid;
+        grid-area: l7;
+      }
+      #matchIDInput_Id {
+        display: grid;
+        grid-area: r5;
+      }
+      #liveCode_Id {
+        display: grid;
+        grid-area: r6;
+      }
+      #viewMatch_Id {
+        display: grid;
+        grid-area: r7;
+      }
+
+      /*Slide button*/
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+        height: 34px;
+      }
+      .switch input {
+        display: none;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ca2222;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2ab934;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(55px);
+        -ms-transform: translateX(55px);
+        transform: translateX(55px);
+      }
+
+      /*------ ADDED CSS ---------*/
+      .on {
+        display: none;
+      }
+
+      .on {
+        color: white;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 30%;
+        font-size: 10px;
+        font-family: Verdana, sans-serif;
+      }
+
+      .off {
+        color: white;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        right: 0%;
+        font-size: 10px;
+        font-family: Verdana, sans-serif;
+      }
+
+      input:checked + .slider .on {
+        display: block;
+      }
+
+      input:checked + .slider .off {
+        display: none;
+      }
+
+      /*--------- END --------*/
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      /*End Slide button*/
+
+      .buttonPill {
+        background-color: #ddd;
+        border: none;
+        color: black;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 16px;
+      }
+
+      .buttonPill:hover {
+        background-color: #f1f1f1;
+      }
+
+      /* TEXT BUTTON WITH COLOR */
+      .btn {
+        border: none; /* Remove borders */
+        color: white; /* Add a text color */
+        /*padding: 14px 28px; /* Add some padding */
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 15px;
+        /* identical to box height */
+
+        text-align: center;
+
+        /* White */
+
+        color: #ffffff;
+
+        /* Inside Auto Layout */
+
+        flex: none;
+        order: 0;
+        align-self: center;
+        flex-grow: 0;
+        margin: 2px 2px;
+        cursor: pointer; /* Add a pointer cursor on mouse-over */
+      }
+
+      .green {
+        background-color: #4caf50;
+      } /* Green */
+      .green:hover {
+        background-color: #46a049;
+      }
+
+      .blue {
+        background-color: #2196f3;
+      } /* Blue */
+      .blue:hover {
+        background: #0b7dda;
+      }
+
+      .orange {
+        background-color: #ff9800;
+      } /* Orange */
+      .orange:hover {
+        background: #e68a00;
+      }
+
+      .red {
+        background-color: #f44336;
+      } /* Red */
+      .red:hover {
+        background: #da190b;
+      }
+
+      .default {
+        background-color: #e7e7e7;
+        color: black;
+      } /* Gray */
+      .default:hover {
+        background: #ddd;
+      }
+
+      .btn:disabled {
+        background-color: gray;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="newMatch_Id">
+        <input
+          id="clb_Id"
+          type="text"
+          name="clb"
+          placeholder="Tên câu lạc bộ: SMT"
+        />
+        <input
+          id="homeInput_Id"
+          type="text"
+          name="homeInput"
+          placeholder="Tên VĐV 1: Hoàng Nam"
+        />
+        <input
+          id="awayInput_Id"
+          type="text"
+          name="awayInput"
+          placeholder="Tên VĐV 2:Linh Giang"
+        />
+        <input
+          id="matchName_Id"
+          type="text"
+          name="Match Name"
+          placeholder="Tên trận đấu: Vòng 1/8 giải Master 500"
+        />
+        <p id="text1_Id">Lựa chọn bảng điều khiển</p>
+        <label class="switch" id="boardType_Id">
+          <input type="checkbox" id="boardSelector_Id" onclick="" />
+          <div class="slider round">
+            <!--ADDED HTML --><span class="on">Nâng Cao</span
+            ><span class="off">Đơn giản</span
+            ><!--END-->
+          </div></label
+        >
+        <button class="btn green" id="submit_Id" onclick="createMatch()">
+          Tạo mới
+        </button>
+      </div>
+      <div id="liveUpdate_Id">
+        <input
+          id="matchIDInput_Id"
+          type="text"
+          name="matchIDInput"
+          placeholder="Nhập vào mã số trận đấu"
+        />
+        <input
+          id="liveCode_Id"
+          type="text"
+          name="LiveCode"
+          placeholder="Nhập vào 6-số bảng Live Score"
+        />
+        <button class="btn green" id="viewMatch_Id" onclick="viewMatch()">
+          Xem
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const url = "http://localhost:3000";
+      function createMatch() {
+        //newMatch() create new match with {clb, players, date) and send to server
+        //Server will return .status = "ok" and .matchID if no error; server returns .status ="error" if error happended.
+        data = {
+          homePlayer: document.getElementById("homeInput_Id").value,
+          awayPlayer: document.getElementById("awayInput_Id").value,
+          clbName: document.getElementById("clb_Id").value,
+          matchName: document.getElementById("matchName_Id").value,
+        };
+
+        let xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xmlhttp.open("POST", url + "/newMatch");
+        xmlhttp.setRequestHeader(
+          "Content-Type",
+          "application/json;charset=UTF-8"
+        );
+        xmlhttp.send(JSON.stringify(data));
+        let res = null;
+        xmlhttp.onreadystatechange = function (id) {
+          if (this.readyState == 4 && this.status == 200) {
+            res = JSON.parse(this.responseText);
+            console.log(res);
+            if (res.status == "ok") {
+              alert("Kết nối thành công. Mã trận đấu:" + res.matchID);
+              window.location.replace(
+                "./control/control.html?id=" + res.matchID
+              );
+              /*let xmlhttp2 = new XMLHttpRequest(); // new HttpRequest instance
+              xmlhttp2.open("GET", url + "/controlBoard/" + res.matchID);
+              xmlhttp2.send();*/
+            } else alert("Tạo trận mới không thành công");
+          }
+        };
+      }
+    </script>
+  </body>
+</html>

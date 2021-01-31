@@ -1,0 +1,13 @@
+{
+    "name": "name",
+    "description": "description",
+    "authors": "author",
+    "version": "1.0.0",
+    "main": "pathToMain",
+    "dependencies": {
+        "express": "^4.17.1",
+        "mongoose": "^5.11.8",
+        "serve-static": "^1.14.1",
+        "socket.io": "^3.0.5"
+    }
+}

@@ -1,0 +1,185 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+  crossorigin="anonymous"
+/>
+<style>
+  .col-6 {
+    border: 1px solid #f0ce0c;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+  crossorigin="anonymous"
+></script>
+
+<script>
+  const url = "http://localhost:3000";
+  function createMatch() {
+    //newMatch() create new match with {clb, players, date) and send to server
+    //Server will return .status = "ok" and .matchID if no error; server returns .status ="error" if error happended.
+    data = {
+      homePlayer: document.getElementById("homeInput_Id").value,
+      awayPlayer: document.getElementById("awayInput_Id").value,
+      clbName: document.getElementById("clb_Id").value,
+      tourName: document.getElementById("tour_Id").value,
+      roundName: document.getElementById("round_Id").value,
+    };
+
+    let xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+    xmlhttp.open("POST", url + "/newMatch");
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify(data));
+    let res = null;
+    xmlhttp.onreadystatechange = function (id) {
+      if (this.readyState == 4 && this.status == 200) {
+        res = JSON.parse(this.responseText);
+        console.log(res);
+        if (res.status == "ok") {
+          alert("Kết nối thành công. Mã trận đấu:" + res.matchID);
+          window.location.replace("./control/control.html?id=" + res.matchID);
+          /*let xmlhttp2 = new XMLHttpRequest(); // new HttpRequest instance
+            xmlhttp2.open("GET", url + "/controlBoard/" + res.matchID);
+            xmlhttp2.send();*/
+        } else alert("Tạo trận mới không thành công");
+      }
+    };
+  }
+
+  function viewLiveScore() {
+    let matchID = document.getElementById("liveCode_Id").value;
+    window.location.replace("./display/" + matchID);
+  }
+
+  function viewStats() {
+    let matchID = document.getElementById("match_Id").value;
+    window.location.replace("./viewstats/" + matchID);
+  }
+</script>
+
+<div class="row">
+  <div class="col-6">
+    <h1 class="text-center">
+      <span class="border border-primary">Tạo trận đấu</span>
+    </h1>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">Club</span>
+      <input
+        id="clb_Id"
+        type="text"
+        class="form-control"
+        placeholder="SMT"
+        aria-describedby="basic-addon1"
+      />
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon2">Đội 1</span>
+      <input
+        id="homeInput_Id"
+        type="text"
+        class="form-control"
+        placeholder="Nam/Huân"
+        aria-describedby="basic-addon1"
+      />
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon3">Đội 2</span>
+      <input
+        id="awayInput_Id"
+        type="text"
+        class="form-control"
+        placeholder="Tiến/Hùng"
+        aria-describedby="basic-addon1"
+      />
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon4">Giải đấu</span>
+      <input
+        id="tour_Id"
+        type="text"
+        class="form-control"
+        placeholder="SMT Open"
+        aria-describedby="basic-addon1"
+      />
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon5">Vòng đấu</span>
+      <input
+        id="round_Id"
+        type="text"
+        class="form-control"
+        placeholder="Bán kết"
+        aria-describedby="basic-addon1"
+      />
+    </div>
+
+    <select class="form-select" aria-label="Default select example">
+      <option selected>Lựa chọn bảng điều khiển</option>
+      <option value="1">Đơn giản</option>
+      <option value="2">Phức tạp</option>
+    </select>
+
+    <button
+      type="button"
+      class="btn btn-primary btn-lg"
+      onclick="createMatch()"
+    >
+      Submit
+    </button>
+  </div>
+
+  <div class="col-6">
+    <h1 class="text-center">
+      <span class="border border-primary">Xem trận đấu</span>
+    </h1>
+    <p class="text-left">Xem tổng hợp tham số kỹ thuật trận đấu</p>
+    <div class="input-group">
+      <input
+        id="match_Id"
+        type="text"
+        class="form-control"
+        placeholder="Nhập vào Match ID"
+        aria-label="Username"
+        aria-describedby="button-addon"
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          id="button-addon"
+          onclick="viewStats()"
+        >
+          Xem
+        </button>
+      </div>
+    </div>
+
+    <p class="text-left">Nhập mã xem kết quả trực tiếp</p>
+    <div class="input-group">
+      <input
+        id="liveCode_Id"
+        type="text"
+        class="form-control"
+        placeholder="Live Score ID"
+        aria-label="Username"
+        aria-describedby="button-addon"
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          id="button-addon"
+          onclick="viewLiveScore()"
+        >
+          Xem
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
