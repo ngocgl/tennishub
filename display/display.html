@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Display screen</title>
+    <script src="../socket.io/socket.io.js"></script>
+
+    <style>
+      :root {
+        --blue: #1e90ff;
+        --white: #ffffff;
+        --homeColor: rgb(54, 162, 235);
+        --awayColor: rgb(255, 205, 86);
+      }
+      .container {
+        color: white;
+        display: grid;
+        height: 100vh;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 140px 320px 2fr repeat(3, minmax(280px, 1fr));
+        grid-template-areas:
+          "panel panel"
+          "control control"
+          "graph1 graph1"
+          "graph2 graph3"
+          "graph4 graph5"
+          "graph6 graph7";
+        grid-gap: 0.1rem;
+      }
+      #scoreboard-div {
+        grid-area: panel;
+        background: #c4c4c400;
+        /* TEXT */
+
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 19px;
+        display: grid;
+        grid-template-columns: 20px 1fr 40px 40px;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+          "homesign home-name home-game home-point"
+          "awaysign away-name away-game away-point";
+        grid-gap: 0.1rem;
+        /* Gray/03 */
+        color: #676262;
+      }
+
+      #homeServe {
+        display: grid;
+        grid-area: homesign;
+        font-weight: 500;
+        font-size: 25px;
+        line-height: 19px;
+        color: orange;
+      }
+
+      #awayServe {
+        opacity: 0;
+        display: grid;
+        grid-area: awaysign;
+        font-weight: 500;
+        font-size: 25px;
+        line-height: 19px;
+        color: orange;
+      }
+
+      #homeInputId {
+        border-style: groove;
+        background-color: #c4c4c400;
+        border: 3px solid green;
+        display: grid;
+        grid-area: home-name;
+        /* Text */
+        text-align: left;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: #676262;
+      }
+
+      #awayInputId {
+        display: grid;
+        grid-area: away-name;
+        border-style: groove;
+        background-color: #c4c4c400;
+        border: 3px solid green;
+        text-align: left;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: #676262;
+      }
+      #homePoint {
+        display: grid;
+        grid-area: home-point;
+        margin: 0;
+        border: 3px solid green;
+        align-items: center;
+        text-align: center;
+      }
+
+      #awayPoint {
+        display: grid;
+        grid-area: away-point;
+        margin: 0;
+        border: 3px solid green;
+        vertical-align: middle;
+        align-items: center;
+        text-align: center;
+      }
+
+      #homeGame {
+        display: grid;
+        grid-area: home-game;
+        margin: 0;
+        border: 3px solid green;
+        vertical-align: middle;
+        align-items: center;
+        text-align: center;
+      }
+
+      #awayGame {
+        display: grid;
+        grid-area: away-game;
+        margin: 0;
+        border: 3px solid green;
+        vertical-align: middle;
+        align-items: center;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scoreboard-div">
+      <input id="homeInputId" type="text" name="homeInput" placeholder="HOME" />
+      <input id="awayInputId" type="text" name="awayInput" placeholder="AWAY" />
+      <p id="homePoint" class="point">0</p>
+      <br />
+      <p id="homeGame" class="point">0</p>
+      <br />
+      <p id="awayPoint" class="point">0</p>
+      <p id="awayGame" class="point">0</p>
+      <p id="homeServe">*</p>
+      <p id="awayServe">*</p>
+    </div>
+    <script>
+      var socket = io();
+      const pointConvert = {
+        0: "0",
+        1: "15",
+        2: "30",
+        3: "40",
+        4: "Adv",
+      };
+      //Update current data (players, game,point)
+      const queryString = window.location.search;
+      console.log(queryString);
+      const urlParams = new URLSearchParams(queryString);
+      document.getElementById("homeInputId").value = urlParams.get(
+        "homePlayer"
+      );
+      document.getElementById("awayInputId").value = urlParams.get(
+        "awayPlayer"
+      );
+      document.getElementById("homeGame").innerHTML = urlParams.get(
+        "homeGameScore"
+      );
+      document.getElementById("awayGame").innerHTML = urlParams.get(
+        "awayGameScore"
+      );
+
+      document.getElementById("homePoint").innerHTML =
+        pointConvert[urlParams.get("homePointScore")];
+      document.getElementById("awayPoint").innerHTML =
+        pointConvert[urlParams.get("awayPointScore")];
+
+      socket.on("/display/" + urlParams.get("matchID"), function (msg) {
+        console.log("sent from server:" + JSON.stringify(msg));
+        document.getElementById("homeInputId").value = msg.homePlayer;
+        document.getElementById("awayInputId").value = msg.awayPlayer;
+        document.getElementById("homeGame").innerHTML =
+          msg.result[0].gameScore.home;
+        document.getElementById("awayGame").innerHTML =
+          msg.result[0].gameScore.away;
+
+        document.getElementById("homePoint").innerHTML =
+          pointConvert[msg.result[0].pointScore.home];
+        document.getElementById("awayPoint").innerHTML =
+          pointConvert[msg.result[0].pointScore.away];
+      });
+    </script>
+  </body>
+</html>

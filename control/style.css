@@ -1,0 +1,866 @@
+:root {
+  --blue: #1e90ff;
+  --white: #ffffff;
+  --homeColor: rgb(54, 162, 235);
+  --awayColor: rgb(255, 205, 86);
+}
+.container {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 140px 320px 2fr repeat(3, minmax(280px, 1fr));
+  grid-template-areas:
+    "panel panel"
+    "control control"
+    "graph1 graph1"
+    "graph2 graph3"
+    "graph4 graph5"
+    "graph6 graph7";
+  grid-gap: 0.1rem;
+}
+#scoreboard-div {
+  grid-area: panel;
+  background: #c4c4c4;
+  /* TEXT */
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  display: grid;
+  grid-template-columns: 20px 1fr 40px 40px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "homesign home-name home-game home-point"
+    "awaysign away-name away-game away-point";
+  grid-gap: 0.1rem;
+  /* Gray/03 */
+  color: #676262;
+}
+#controlboard-div {
+  grid-area: control;
+  background: #c4c4c4;
+  display: grid;
+
+  grid-template-columns: 1fr repeat(5, 60px);
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "text1 bt1 bt2 pt3 bt4 bt5"
+    "text2 bt6 bt7 bt8 bt9 bt10"
+    "text6 bt26 bt27 bt28 bt29 bt30"
+    "text3 bt11 bt12 bt13 bt14 bt15"
+    "text4 bt16 bt17 bt18 bt19 bt20"
+    "text5 bt21 bt22 bt23 bt24 bt25";
+  grid-gap: 0.1rem;
+}
+
+#barChart {
+  grid-area: graph1;
+  background-color: #c4c4c4;
+}
+
+#serveGraphAreaGrid {
+  grid-area: graph2;
+  background: #c4c4c4;
+}
+
+#serve1stInGrid {
+  grid-area: graph3;
+  background: #c4c4c4;
+}
+#serve1stWonGrid {
+  grid-area: graph4;
+  background: #c4c4c4;
+}
+#serve2ndWonGrid {
+  grid-area: graph5;
+  background: #c4c4c4;
+}
+#showCharts {
+  grid-area: graph6;
+  background: #c4c4c4;
+}
+
+#background_img {
+  position: absolute;
+  width: 414px;
+  height: 492px;
+  left: 0px;
+  top: 1px;
+  mix-blend-mode: darken;
+}
+
+/*Slide button*/
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 34px;
+}
+
+#switch1 {
+  position: relative;
+  top: 16px;
+  left: 10px;
+}
+
+#switch2 {
+  position: relative;
+  top: 16px;
+  left: 50px;
+}
+
+#switch3 {
+  position: relative;
+  top: 16px;
+  left: 90px;
+}
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ca2222;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2ab934;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(55px);
+  -ms-transform: translateX(55px);
+  transform: translateX(55px);
+}
+
+/*------ ADDED CSS ---------*/
+.on {
+  display: none;
+}
+
+.on {
+  color: white;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 30%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+
+.off {
+  color: white;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  right: 0%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+
+input:checked + .slider .on {
+  display: block;
+}
+
+input:checked + .slider .off {
+  display: none;
+}
+
+/*--------- END --------*/
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*End Slide button*/
+
+#homeServe {
+  display: grid;
+  grid-area: homesign;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 19px;
+  color: orange;
+}
+
+#awayServe {
+  opacity: 0;
+  display: grid;
+  grid-area: awaysign;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 19px;
+  color: orange;
+}
+
+#homeInputId {
+  border-style: groove;
+  background-color: lightgrey;
+  border: 3px solid green;
+  display: grid;
+  grid-area: home-name;
+  /* Text */
+  text-align: left;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #676262;
+}
+
+#awayInputId {
+  display: grid;
+  grid-area: away-name;
+  border-style: groove;
+  background-color: lightgrey;
+  border: 3px solid green;
+  text-align: left;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #676262;
+}
+#homePoint {
+  display: grid;
+  grid-area: home-point;
+  margin: 0;
+  border: 3px solid green;
+  align-items: center;
+  text-align: center;
+}
+
+#awayPoint {
+  display: grid;
+  grid-area: away-point;
+  margin: 0;
+  border: 3px solid green;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+}
+
+#homeGame {
+  display: grid;
+  grid-area: home-game;
+  margin: 0;
+  border: 3px solid green;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+}
+
+#awayGame {
+  display: grid;
+  grid-area: away-game;
+  margin: 0;
+  border: 3px solid green;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+}
+
+.buttonPill {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.buttonPill:hover {
+  background-color: #f1f1f1;
+}
+
+/* TEXT BUTTON WITH COLOR */
+.btn {
+  border: none; /* Remove borders */
+  color: white; /* Add a text color */
+  /*padding: 14px 28px; /* Add some padding */
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 15px;
+  /* identical to box height */
+
+  text-align: center;
+
+  /* White */
+
+  color: #ffffff;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 0;
+  align-self: center;
+  flex-grow: 0;
+  margin: 2px 2px;
+  cursor: pointer; /* Add a pointer cursor on mouse-over */
+}
+
+.green {
+  background-color: #4caf50;
+} /* Green */
+.green:hover {
+  background-color: #46a049;
+}
+
+.blue {
+  background-color: #2196f3;
+} /* Blue */
+.blue:hover {
+  background: #0b7dda;
+}
+
+.orange {
+  background-color: #ff9800;
+} /* Orange */
+.orange:hover {
+  background: #e68a00;
+}
+
+.red {
+  background-color: #f44336;
+} /* Red */
+.red:hover {
+  background: #da190b;
+}
+
+.default {
+  background-color: #e7e7e7;
+  color: black;
+} /* Gray */
+.default:hover {
+  background: #ddd;
+}
+
+.btn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/*
+  for POINT */
+
+/*
+  #homeSwitch{
+  
+    position: absolute;
+    width: 160px;
+    height: 47px;
+    left: 60px;
+    top: 12px;
+  
+   Green Primary
+  
+    border-radius: 100px;
+  }
+  #awaySwitch{
+  
+  
+    position: absolute;
+    width: 160px;
+    height: 47px;
+    left: 238px;
+    top: 12px;
+  
+    /* Green/Primary
+  
+    border-radius: 100px;
+  }
+  */
+
+#newMatch {
+  display: grid;
+  grid-area: bt13;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  font-size: 15px;
+  width: 56px;
+  height: 47px;
+  border-radius: 100px;
+}
+
+#homeWinPoint {
+  display: grid;
+  grid-area: bt6;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  font-size: 25px;
+  width: 56px;
+  height: 47px;
+  border-radius: 100px;
+}
+
+#homeLostPoint {
+  display: grid;
+  grid-area: bt7;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+  font-size: 25px;
+  width: 56px;
+  height: 47px;
+  border-radius: 100px;
+}
+
+#resetPoint {
+  display: grid;
+  grid-area: bt8;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+  width: 56px;
+  height: 47px;
+  border-radius: 100px;
+}
+
+#awayWinPoint {
+  display: grid;
+  grid-area: bt9;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  font-size: 25px;
+  width: 56px;
+  height: 47px;
+  left: 265px;
+  top: 71px;
+  border-radius: 100px;
+}
+
+#awayLostPoint {
+  display: grid;
+  grid-area: bt10;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  font-size: 25px;
+  width: 56px;
+  height: 47px;
+  left: 330px;
+  top: 71px;
+  border-radius: 100px;
+}
+
+#homeWinAce {
+  display: grid;
+  grid-area: bt11;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 65px;
+  top: 178px;
+  border-radius: 100px;
+}
+
+#homeWinWinner {
+  display: grid;
+  grid-area: bt16;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 65px;
+  top: 235px;
+  border-radius: 100px;
+}
+
+#homeNetWin {
+  display: grid;
+  grid-area: bt21;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 65px;
+  top: 295px;
+  border-radius: 100px;
+}
+
+#homeDF {
+  display: grid;
+  grid-area: bt12;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 146px;
+  top: 179px;
+  border-radius: 100px;
+}
+#homeUFE {
+  display: grid;
+  grid-area: bt17;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 146px;
+  top: 235px;
+  border-radius: 100px;
+}
+#homeNetLost {
+  display: grid;
+  grid-area: bt22;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 146px;
+  top: 295px;
+  border-radius: 100px;
+}
+
+/* AWAY */
+
+#awayWinAce {
+  display: grid;
+  grid-area: bt14;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 255px;
+  top: 178px;
+  border-radius: 100px;
+}
+
+#awayWinWinner {
+  display: grid;
+  grid-area: bt19;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 255px;
+  top: 235px;
+  border-radius: 100px;
+}
+
+#awayNetWin {
+  display: grid;
+  grid-area: bt24;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 255px;
+  top: 295px;
+  border-radius: 100px;
+}
+
+#awayDF {
+  display: grid;
+  grid-area: bt15;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 332px;
+  top: 179px;
+  border-radius: 100px;
+}
+#awayUFE {
+  display: grid;
+  grid-area: bt20;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 332px;
+  top: 235px;
+  border-radius: 100px;
+}
+#awayNetLost {
+  display: grid;
+  grid-area: bt25;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 332px;
+  top: 295px;
+  border-radius: 100px;
+}
+
+/* GAME */
+
+#homeWinGame {
+  display: grid;
+  grid-area: bt26;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  font-size: 25px;
+  width: 56px;
+  height: 47px;
+  left: 67px;
+  top: 359px;
+  border-radius: 100px;
+}
+
+#homeLostGame {
+  display: grid;
+  grid-area: bt27;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  font-size: 25px;
+  width: 56px;
+  height: 47px;
+  left: 134px;
+  top: 359px;
+  border-radius: 100px;
+}
+
+#resetGame {
+  display: grid;
+  grid-area: bt28;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  width: 56px;
+  height: 47px;
+  left: 198px;
+  top: 359px;
+  border-radius: 100px;
+}
+
+#awayWinGame {
+  display: grid;
+  grid-area: bt29;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  font-size: 25px;
+  width: 56px;
+  height: 47px;
+  left: 265px;
+  top: 359px;
+  border-radius: 100px;
+}
+
+#awayLostGame {
+  display: grid;
+  grid-area: bt30;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+
+  font-size: 25px;
+  width: 56px;
+  height: 47px;
+  border-radius: 100px;
+}
+
+/*Text*/
+#textServe {
+  margin: 0;
+  display: grid;
+  grid-area: text1;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  vertical-align: middle;
+  align-items: center;
+  text-align: left;
+  color: #eb5757;
+}
+
+#textPoint {
+  display: grid;
+  grid-area: text2;
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  vertical-align: middle;
+  align-items: center;
+  text-align: left;
+  color: #eb5757;
+}
+#textAdv {
+  display: grid;
+  grid-area: text4;
+  vertical-align: middle;
+  align-items: center;
+  text-align: left;
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: left;
+
+  color: #eb5757;
+}
+
+#textGame {
+  display: grid;
+  grid-area: text6;
+  vertical-align: middle;
+  align-items: center;
+  text-align: left;
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: left;
+
+  color: #eb5757;
+}
+
+.graphArea {
+  position: absolute;
+  width: 414px;
+  height: 463px;
+  left: 0px;
+  top: 730px;
+  background: #c4c4c4;
+  /* TEXT */
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+
+  /* Gray/03 */
+
+  color: #676262;
+}
+
+#serveGraphArea {
+  position: absolute;
+  width: 414px;
+  height: 500px;
+  left: 0px;
+  top: 1200px;
+  /*background: #C4C4C4;*/
+  /* TEXT */
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+
+  /* Gray/03 */
+
+  color: #676262;
+  background: #c4c4c4;
+}
+
+#textStatistics {
+  position: absolute;
+  width: 73px;
+  height: 19px;
+  left: 0px;
+  top: 0px;
+
+  /* UI - 16 Medium */
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  text-decoration-line: underline;
+
+  /* Black */
+
+  color: #602727;
+}
+
+#btnSave {
+  position: absolute;
+  width: 244px;
+  height: 47px;
+  left: 85px;
+  top: 737px;
+  border-radius: 100px;
+}

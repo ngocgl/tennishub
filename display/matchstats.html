@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="../socket.io/socket.io.js"></script>
+    <script src="matchstats.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"
+      integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg=="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["bar"] });
+      //google.charts.setOnLoadCallback(drawChart);
+    </script>
+    <!--Load Chart.js plugin-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <!--<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thống kê trận đấu</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="barChart">
+        <canvas id="myChart" width="300" height="300"></canvas>
+      </div>
+      <div id="serveGraphAreaGrid">
+        <canvas id="serveChart" width="160" height="200"></canvas>
+      </div>
+      <div id="serve1stInGrid">
+        <canvas id="serve1stInChart" width="160" height="200"></canvas>
+      </div>
+      <div id="serve1stWonGrid">
+        <canvas id="serve1stWonChart" width="160" height="200"></canvas>
+      </div>
+      <div id="serve2ndWonGrid">
+        <canvas id="serve2ndWonChart" width="160" height="200"></canvas>
+      </div>
+    </div>
+  </body>
+</html>

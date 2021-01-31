@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Score Board</title>
+    <script src="../socket.io/socket.io.js"></script>
+    <style>
+      .scoreboard {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+      }
+      .scoreboard__player {
+        display: flex;
+        margin-bottom: -0.1rem;
+      }
+      .match_detail_info {
+        display: flex;
+        margin-bottom: -0.2rem;
+        background: linear-gradient(
+          to bottom,
+          rgba(65, 92, 100, 0.5),
+          rgba(8, 39, 47, 0.5)
+        );
+        border: 0.1rem solid #060000;
+        color: #fff;
+        text-shadow: -0.05rem -0.05rem rgba(6, 0, 0, 0.75);
+        margin-right: 0.1rem;
+      }
+      .player {
+        position: relative;
+        display: flex;
+        align-items: center;
+        border: 0.1rem solid #060000;
+        color: #fff;
+        text-shadow: -0.05rem -0.05rem rgba(6, 0, 0, 0.75);
+        width: 12em;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        margin-right: -0.1rem;
+        background: linear-gradient(
+          to bottom,
+          rgba(65, 92, 100, 0.5),
+          rgba(8, 39, 47, 0.5)
+        );
+      }
+      .player::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          to right,
+          rgba(65, 92, 100, 0.75),
+          #060000 75%
+        );
+        z-index: -1;
+      }
+      .player--serve::before {
+        content: "";
+        position: absolute;
+        right: 1rem;
+        width: 0;
+        height: 0;
+        border-top: 0.375rem solid transparent;
+        border-bottom: 0.375rem solid transparent;
+        border-right: 0.375rem solid #f4b400;
+      }
+      .player__rank {
+        font-size: 0.6em;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+      .player__name {
+        margin-right: 0.25rem;
+      }
+      .player__surname {
+        display: none;
+        margin-right: 0.25rem;
+      }
+      .player__clb {
+        font-size: 0.6em;
+        margin-left: auto;
+        margin-right: 2rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+
+      .set {
+        display: flex;
+        order: 2;
+      }
+      .set__score {
+        width: 1.5rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        text-align: center;
+        background: linear-gradient(to bottom, #242424, #060000);
+        border: 0.1rem solid #060000;
+        color: #fff;
+        text-shadow: -0.05rem -0.05rem rgba(6, 0, 0, 0.75);
+        margin-right: 0.1rem;
+      }
+
+      .game__score {
+        width: 1.75rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        text-align: center;
+        background: linear-gradient(to bottom, #f4b400, #f0ff32);
+        border: 0.1rem solid #060000;
+        color: #060000;
+        margin-right: -0.1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="scoreboard">
+      <div class="scoreboard__player">
+        <div class="player player--serve" id="home-player-id">
+          <div class="player__rank">2.5</div>
+          <div class="player__name" id="homeInputId">Rafael</div>
+          <div class="player__surname">Nadal</div>
+          <div class="player__clb">SMT</div>
+        </div>
+        <div class="set">
+          <div class="set__score set__score--actual" id="homeGame">4</div>
+        </div>
+        <div class="game">
+          <div class="game__score" id="homePoint">0</div>
+        </div>
+      </div>
+      <div class="scoreboard__player">
+        <div class="player" id="away-player-id">
+          <div class="player__rank">2.75</div>
+          <div class="player__name" id="awayInputId">Novak</div>
+          <div class="player__surname">Djokovic</div>
+          <div class="player__clb">AHI</div>
+        </div>
+        <div class="set">
+          <div class="set__score set__score--actual" id="awayGame">3</div>
+        </div>
+        <div class="game">
+          <div class="game__score" id="awayPoint">0</div>
+        </div>
+      </div>
+
+      <div class="match_detail_info" id="matchID">matchID</div>
+      <div class="match_detail_info" id="tourName">Giải đấu</div>
+      <div class="match_detail_info" id="matchName">Vòng đấu</div>
+    </section>
+
+    <script>
+      var socket = io();
+      const pointConvert = {
+        0: "0",
+        1: "15",
+        2: "30",
+        3: "40",
+        4: "Adv",
+      };
+      //Update current data (players, game,point)
+      const queryString = window.location.search;
+      console.log(queryString);
+      const urlParams = new URLSearchParams(queryString);
+      document.getElementById("homeInputId").innerHTML = urlParams.get(
+        "homePlayer"
+      );
+      document.getElementById("awayInputId").innerHTML = urlParams.get(
+        "awayPlayer"
+      );
+      document.getElementById("homeGame").innerHTML = urlParams.get(
+        "homeGameScore"
+      );
+      document.getElementById("awayGame").innerHTML = urlParams.get(
+        "awayGameScore"
+      );
+
+      document.getElementById("homePoint").innerHTML =
+        pointConvert[urlParams.get("homePointScore")];
+      document.getElementById("awayPoint").innerHTML =
+        pointConvert[urlParams.get("awayPointScore")];
+
+      document.getElementById("matchID").innerHTML = urlParams.get("matchID");
+      document.getElementById("tourName").innerHTML = urlParams.get("tourName");
+      document.getElementById("matchName").innerHTML = urlParams.get(
+        "matchName"
+      );
+
+      socket.on("/display/" + urlParams.get("matchID"), function (msg) {
+        console.log("sent from server:" + JSON.stringify(msg));
+        document.getElementById("matchID").innerHTML = urlParams.get("matchID");
+        document.getElementById("homeInputId").innerHTML = msg.homePlayer;
+        document.getElementById("awayInputId").innerHTML = msg.awayPlayer;
+        document.getElementById("homeGame").innerHTML =
+          msg.result[0].gameScore.home;
+        document.getElementById("awayGame").innerHTML =
+          msg.result[0].gameScore.away;
+
+        document.getElementById("homePoint").innerHTML =
+          pointConvert[msg.result[0].pointScore.home];
+        document.getElementById("awayPoint").innerHTML =
+          pointConvert[msg.result[0].pointScore.away];
+
+        if (msg.result[0].pointScore.serveSide == "home") {
+          document.getElementById("away-player-id").className = "player";
+          document.getElementById("home-player-id").className =
+            "player player--serve";
+        } else {
+          document.getElementById("away-player-id").className =
+            "player player--serve";
+          document.getElementById("home-player-id").className = "player";
+        }
+      });
+    </script>
+  </body>
+</html>

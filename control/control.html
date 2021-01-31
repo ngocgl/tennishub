@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script src="control.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"
+      integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg=="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["bar"] });
+      //google.charts.setOnLoadCallback(drawChart);
+    </script>
+    <!--Load Chart.js plugin-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <!--<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Tennis Point Panel</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="scoreboard-div">
+        <input
+          id="homeInputId"
+          type="text"
+          name="homeInput"
+          placeholder="HOME"
+        />
+        <input
+          id="awayInputId"
+          type="text"
+          name="awayInput"
+          placeholder="AWAY"
+        />
+        <p id="homePoint" class="point">0</p>
+        <br />
+        <p id="homeGame" class="point">0</p>
+        <br />
+        <p id="awayPoint" class="point">0</p>
+        <p id="awayGame" class="point">0</p>
+        <p id="homeServe">*</p>
+        <p id="awayServe">*</p>
+      </div>
+      <div id="controlboard-div">
+        <!-- HOME/AWAY Serve-->
+        <label class="switch" id="switch1"
+          ><input
+            type="checkbox"
+            id="homeAwaySwitch"
+            onclick="sendToGateway(id)"
+          />
+          <div class="slider round">
+            <span class="on">Away</span>
+            <span class="off">Home</span>
+          </div>
+        </label>
+        <!-- 1st serve and 2nd serve selection-->
+        <label class="switch" id="switch2"
+          ><input
+            type="checkbox"
+            id="1st2ndServe"
+            onclick="sendToGateway(id)"
+          />
+          <div class="slider round">
+            <!--ADDED HTML --><span class="on">2nd Sev</span
+            ><span class="off">1st Sev</span
+            ><!--END-->
+          </div></label
+        >
+        <!-- Decision point (Bóng vàng) selection-->
+        <label class="switch" id="switch3"
+          ><input
+            type="checkbox"
+            id="decisionPoint"
+            onclick="sendToGateway(id)"
+          />
+          <div class="slider round">
+            <!--ADDED HTML --><span class="on"> BV </span
+            ><span class="off">no-BV</span
+            ><!--END-->
+          </div></label
+        >
+        <button class="btn green" id="newMatch" onclick="sendToGateway(id)">
+          NEW
+        </button>
+
+        <button class="btn green" id="homeWinPoint" onclick="sendToGateway(id)">
+          +
+        </button>
+        <button
+          class="btn green"
+          id="homeLostPoint"
+          onclick="sendToGateway(id)"
+        >
+          -
+        </button>
+        <button class="btn orange" id="resetPoint" onclick="sendToGateway(id)">
+          Reset
+        </button>
+        <button class="btn green" id="awayWinPoint" onclick="sendToGateway(id)">
+          +
+        </button>
+        <button
+          class="btn green"
+          id="awayLostPoint"
+          onclick="sendToGateway(id)"
+        >
+          -
+        </button>
+        <button class="btn green" id="homeWinAce" onclick="sendToGateway(id)">
+          ACE
+        </button>
+        <button
+          class="btn green"
+          id="homeWinWinner"
+          onclick="sendToGateway(id)"
+        >
+          Winner
+        </button>
+        <button class="btn green" id="homeNetWin" onclick="sendToGateway(id)">
+          Net Win
+        </button>
+        <button
+          class="btn blue"
+          id="homeDF"
+          onclick="sendToGateway(id)"
+          disabled
+        >
+          DF
+        </button>
+        <button class="btn blue" id="homeUFE" onclick="sendToGateway(id)">
+          UFE
+        </button>
+        <button class="btn blue" id="homeNetLost" onclick="sendToGateway(id)">
+          Net Lost
+        </button>
+
+        <button
+          class="btn green"
+          id="awayWinAce"
+          onclick="sendToGateway(id)"
+          disabled
+        >
+          ACE
+        </button>
+        <button
+          class="btn green"
+          id="awayWinWinner"
+          onclick="sendToGateway(id)"
+        >
+          Winner
+        </button>
+        <button class="btn green" id="awayNetWin" onclick="sendToGateway(id)">
+          Net Win
+        </button>
+        <button
+          class="btn blue"
+          id="awayDF"
+          onclick="sendToGateway(id)"
+          disabled
+        >
+          DF
+        </button>
+        <button class="btn blue" id="awayUFE" onclick="sendToGateway(id)">
+          UFE
+        </button>
+        <button class="btn blue" id="awayNetLost" onclick="sendToGateway(id)">
+          Net Lost
+        </button>
+
+        <button class="btn green" id="homeWinGame" onclick="sendToGateway(id)">
+          +
+        </button>
+        <button class="btn green" id="homeLostGame" onclick="sendToGateway(id)">
+          -
+        </button>
+        <button class="btn orange" id="resetGame" onclick="sendToGateway(id)">
+          Reset
+        </button>
+        <button class="btn green" id="awayWinGame" onclick="sendToGateway(id)">
+          +
+        </button>
+        <button class="btn green" id="awayLostGame" onclick="sendToGateway(id)">
+          -
+        </button>
+
+        <p id="textServe">Serve</p>
+        <p id="textPoint">Point</p>
+        <p id="textAdv">Adv</p>
+        <p id="textGame">Game</p>
+      </div>
+
+      <div id="barChart">
+        <canvas id="myChart" width="300" height="300"></canvas>
+        <script>
+          drawChart();
+        </script>
+      </div>
+      <div id="serveGraphAreaGrid">
+        <canvas id="serveChart" width="160" height="200"></canvas>
+      </div>
+      <div id="serve1stInGrid">
+        <canvas id="serve1stInChart" width="160" height="200"></canvas>
+      </div>
+      <div id="serve1stWonGrid">
+        <canvas id="serve1stWonChart" width="160" height="200"></canvas>
+      </div>
+      <div id="serve2ndWonGrid">
+        <canvas id="serve2ndWonChart" width="160" height="200"></canvas>
+      </div>
+      <div id="showCharts"></div>
+    </div>
+  </body>
+</html>

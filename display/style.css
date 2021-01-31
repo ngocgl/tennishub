@@ -1,0 +1,39 @@
+:root {
+  --blue: #1e90ff;
+  --white: #ffffff;
+  --homeColor: rgb(54, 162, 235);
+  --awayColor: rgb(255, 205, 86);
+}
+body{
+  background: #c4c4c4;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 320px);
+  grid-template-rows: repeat(2, 400);
+  /*grid-template-areas: "p2 p1 p3 p4 p5";*/
+  grid-gap: 0.1rem;
+
+}
+/*#barChart {
+  grid-area: p1;
+  background: #c4c4c4;
+}
+
+#serveGraphAreaGrid {
+  grid-area: p2;
+  background: #c4c4c4;
+}
+#serve1stInGrid {
+  grid-area: p3;
+  background: #c4c4c4;
+}
+
+#serve1stWonGrid {
+  grid-area: p4;
+  background: #c4c4c4;
+}
+#serve2ndWonGrid {
+  grid-area: p5;
+  background: #c4c4c4;
+}
