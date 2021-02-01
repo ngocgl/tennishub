@@ -18,7 +18,9 @@
 <script>
   //get PORT in NODE JS ENV
   PORT = window.SERVER_DATA.PORT;
-  var url = "http://localhost:" + PORT;
+  //var url = "http://localhost:" + PORT;
+  var url = "https://onetennis.herokuapp.com";
+
   function createMatch() {
     //newMatch() create new match with {clb, players, date) and send to server
     //Server will return .status = "ok" and .matchID if no error; server returns .status ="error" if error happended.
