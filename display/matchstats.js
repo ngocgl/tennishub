@@ -8,7 +8,7 @@ function init() {
   const urlParams = new URLSearchParams(queryString);
   let matchID = urlParams.get("matchID");
   console.log(matchID);
-  var socket = io();
+  var socket = io.connect(window.location.hostname);
   const pointConvert = {
     0: "0",
     1: "15",
