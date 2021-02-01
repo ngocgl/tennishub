@@ -63,7 +63,11 @@ var newMatch;
 async function matchInit(data) {
   console.log("Start");
   await mongoose.connect(
-    "mongodb+srv://ngocgl:N17t0n75@cluster0.26ide.mongodb.net/match?retryWrites=true&w=majority"
+    "mongodb+srv://ngocgl:N17t03n75@cluster0.26ide.mongodb.net/match?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
   );
   console.log("end connect");
   match = new mongoose.model("match", matchSchema);
