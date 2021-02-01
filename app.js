@@ -98,7 +98,13 @@ async function updateMatch(data) {
 //find a record
 async function findMatch(id) {
   console.log("Start");
-  await mongoose.connect("mongodb://localhost:27017/sbdsata");
+  await mongoose.connect(
+    "mongodb+srv://ngocgl:N17t03n75@cluster0.26ide.mongodb.net/match?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  );
   console.log("end connect");
   let match = new mongoose.model("match", matchSchema);
   return await match.findOne({ matchID: id }, function (err, qResult) {
