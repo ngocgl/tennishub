@@ -161,6 +161,10 @@ app.post("/newMatch", function (req, res, next) {
   );
 });
 
+app.get("/data.js", function (req, res, next) {
+  res.send(`window.SERVER_DATA={"PORT":${PORT}}`);
+});
+
 app.post("/updatePoint", function (req, res, next) {
   let data = req.body;
   updateMatch(data).then(
