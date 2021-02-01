@@ -1,5 +1,4 @@
 //convert fraction to percentage string
-const PORT = process.env.PORT || 3000;
 init();
 
 function init() {
