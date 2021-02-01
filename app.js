@@ -92,9 +92,9 @@ async function updateMatch(data) {
   const update = { result: data.result };
 
   // `doc` is the document _AFTER_ `update` was applied
+  let match = new mongoose.model("match", matchSchema);
   return await match.findOneAndUpdate(filter, update, { new: true });
 }
-
 //find a record
 async function findMatch(id) {
   console.log("Start");
