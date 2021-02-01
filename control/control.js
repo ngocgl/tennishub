@@ -1,5 +1,4 @@
 //define Global variables:
-const PORT = process.env.PORT || 3000;
 const url = "https://onetennis.herokuapp.com";
 const pointConvert = {
   0: "0",
