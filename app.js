@@ -12,6 +12,7 @@ const http = require("http").Server(app);
 var serveStatic = require("serve-static");
 var express = require("express");
 const io = require("socket.io")(http);
+const PORT = process.env.PORT || 3000;
 
 let tempData = {
   matchID: "001",
@@ -128,7 +129,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-http.listen(3000, function () {
+http.listen(PORT, function () {
   console.log("http server is starting on port 3000");
   console.log("dir name:" + __dirname);
 });
