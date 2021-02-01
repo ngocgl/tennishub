@@ -1,5 +1,6 @@
 //define Global variables:
-const url = "http://localhost:3000";
+const PORT = process.env.PORT || 3000;
+const url = "http://localhost:" + PORT;
 const pointConvert = {
   0: "0",
   1: "15",
