@@ -16,9 +16,9 @@
 ></script>
 
 <script>
-  const PORT = process.env.PORT || 3000;
-
-  const url = "http://localhost:" + PORT;
+  const { on } = require("process");
+  var PORT = process.env.PORT || 3000;
+  var url = "http://localhost:" + PORT;
   function createMatch() {
     //newMatch() create new match with {clb, players, date) and send to server
     //Server will return .status = "ok" and .matchID if no error; server returns .status ="error" if error happended.
