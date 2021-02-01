@@ -469,6 +469,7 @@ function getMatchID() {
 
 var M1 = new Match(getMatchID(), "A", "B", "SMT");
 
+console.log("Khoi tao:" + M1);
 //Bridge from HTML to JS
 function sendToGateway(id) {
   M1.inputPoint(id);
