@@ -62,7 +62,9 @@ var newMatch;
 
 async function matchInit(data) {
   console.log("Start");
-  await mongoose.connect("mongodb://localhost:27017/sbdsata");
+  await mongoose.connect(
+    "mongodb+srv://ngocgl:N17t0n75@cluster0.26ide.mongodb.net/match?retryWrites=true&w=majority"
+  );
   console.log("end connect");
   match = new mongoose.model("match", matchSchema);
   newMatch = new match(tempData);
