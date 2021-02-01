@@ -130,8 +130,7 @@ app.use(function (req, res, next) {
 });
 
 http.listen(PORT, function () {
-  console.log("http server is starting on port 3000");
-  console.log("dir name:" + __dirname);
+  console.log("http server is starting on port:" + PORT);
 });
 
 app.get("/", function (rep, res) {
