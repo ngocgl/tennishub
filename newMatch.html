@@ -348,12 +348,8 @@
     </div>
 
     <script>
-      const queryString = window.location.search;
-      console.log(queryString);
-      const urlParams = new URLSearchParams(queryString);
-      var PORT = urlParams.get("P");
-
-      var url = "http://localhost:" + PORT;
+      //var url = "http://localhost:" + PORT;
+      var url = "https://onetennis.herokuapp.com";
       function createMatch() {
         //newMatch() create new match with {clb, players, date) and send to server
         //Server will return .status = "ok" and .matchID if no error; server returns .status ="error" if error happended.
