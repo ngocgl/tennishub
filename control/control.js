@@ -32,7 +32,6 @@ function Match() {
   };*/
 
   let currentSet = new Set();
-  currentSet = this.data.result[this.data.result.length];
 
   this.addSet = function () {
     this.data.result.push(currentSet);
@@ -281,6 +280,7 @@ function Match() {
         return false;
       }
     };
+    currentSet = this.data.result[this.data.result.length];
   };
 
   this.newMatch = async function () {
