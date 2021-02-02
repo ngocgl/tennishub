@@ -498,7 +498,7 @@ getMatchData = async function (matchID) {
 //-----------BEGIN----------
 
 let IDs = getIDs();
-let data = getMatchData();
+let data = await getMatchData();
 console.log(data);
 if (data != false) {
   var M1 = new Match(data);
