@@ -192,7 +192,9 @@
 
       socket.on("/display/" + urlParams.get("liveScoreID"), function (msg) {
         console.log("sent from server:" + JSON.stringify(msg));
-        document.getElementById("matchID").innerHTML = urlParams.get("matchID");
+        document.getElementById("liveScoreID").innerHTML = urlParams.get(
+          "liveScoreID"
+        );
         document.getElementById("homeInputId").innerHTML = msg.homePlayer;
         document.getElementById("awayInputId").innerHTML = msg.awayPlayer;
         document.getElementById("homeGame").innerHTML =
