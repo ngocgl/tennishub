@@ -10,7 +10,7 @@ const pointConvert = {
 
 function updateHTMLState() {}
 
-function Match(matchID, homePlayer, awayPlayer, clb, date) {
+function Match(matchID, liveScoreID, homePlayer, awayPlayer, clb, date) {
   this.HTMLElementState = {
     serveSide: "home",
     serveType: "1st",
