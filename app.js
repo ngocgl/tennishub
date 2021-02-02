@@ -14,8 +14,13 @@ var express = require("express");
 const io = require("socket.io")(http);
 const PORT = process.env.PORT || 3000;
 
+const { customAlphabet } = require("nanoid");
+const alphabet = "123456789QWERTYUIPASDFGHJKLZXCVBNM";
+const nanoid = customAlphabet(alphabet, 6);
+
 let tempData = {
   matchID: "001",
+  liveScoreID: "ABC123",
   homePlayer: "ABC",
   awayPlayer: "Ngoc",
   clb: "SMT",
@@ -40,6 +45,7 @@ let tempData = {
 };
 const matchSchema = new mongoose.Schema({
   matchID: mongoose.ObjectId,
+  liveScoreID: String,
   clb: String,
   homePlayer: String,
   awayPlayer: String,
@@ -74,6 +80,7 @@ async function matchInit(data) {
   newMatch = new match(tempData);
   newMatch.matchID = newMatch._id;
   newMatch.matchID.toString();
+  newMatch.liveScoreID = nanoid();
   newMatch.awayPlayer = data.awayPlayer;
   newMatch.homePlayer = data.homePlayer;
   newMatch.roundName = data.roundName;
@@ -107,15 +114,28 @@ async function findMatch(id) {
   );
   console.log("end connect");
   let match = new mongoose.model("match", matchSchema);
-  return await match.findOne({ matchID: id }, function (err, qResult) {
-    if (err) {
-      console.log(`error while requery db. Error#:${err}`);
-      return false;
-    } else {
-      console.log("Match found" + qResult || "Empty");
-      return qResult;
-    }
-  });
+  //if length of id > 6 that mean the id is match ID else it's live score ID
+  if (id.length > 6) {
+    return await match.findOne({ matchID: id }, function (err, qResult) {
+      if (err) {
+        console.log(`error while requery db. Error#:${err}`);
+        return false;
+      } else {
+        console.log("Match found" + qResult || "Empty");
+        return qResult;
+      }
+    });
+  } else {
+    return await match.findOne({ liveScoreID: id }, function (err, qResult) {
+      if (err) {
+        console.log(`error while requery db. Error#:${err}`);
+        return false;
+      } else {
+        console.log("Match found" + qResult || "Empty");
+        return qResult;
+      }
+    });
+  }
 }
 
 //mongoose.find((err,docs)=>{
@@ -165,6 +185,7 @@ app.post("/newMatch", function (req, res, next) {
       res.json({
         status: "ok",
         matchID: newMatch.matchID,
+        liveScoreID: newMatch.liveScoreID,
       });
     },
     function (error) {
@@ -181,8 +202,8 @@ app.post("/updatePoint", function (req, res, next) {
   let data = req.body;
   updateMatch(data).then(
     function (value) {
-      console.log("Emit:" + "/display/" + data.matchID);
-      io.emit("/display/" + data.matchID, value); //emit to display client the resutl.
+      console.log("Emit:" + "/display/" + data.liveScoreID);
+      io.emit("/display/" + data.liveScoreID, value); //emit to display client the resutl.
       res.json({
         status: "ok",
         updated: value,
@@ -201,9 +222,9 @@ app.get("/match", function (req, res, next) {
 });
 
 //------------SOCKET.IO -----------
-app.get("/display/:matchID", function (req, res, next) {
-  console.log("Match ID = " + req.params.matchID);
-  findMatch(req.params.matchID).then(
+app.get("/display/:liveScoreID", function (req, res, next) {
+  console.log("live score ID = " + req.params.liveScoreID);
+  findMatch(req.params.liveScoreID).then(
     function (value) {
       console.log(`Point 1:${value}`);
       if (value == null || false) {
@@ -213,7 +234,9 @@ app.get("/display/:matchID", function (req, res, next) {
         res.redirect(
           "../display/basicboard.html?" +
             "matchID=" +
-            req.params.matchID +
+            value.matchID +
+            "&liveScoreID=" +
+            value.liveScoreID +
             "&tourName=" +
             value.tourName +
             "&matchName=" +
@@ -241,9 +264,9 @@ app.get("/display/:matchID", function (req, res, next) {
   );
 });
 
-app.get("/viewstats/:matchID", function (req, res, next) {
-  console.log("Match ID = " + req.params.matchID);
-  findMatch(req.params.matchID).then(
+app.get("/viewstats/:liveScoreID", function (req, res, next) {
+  console.log("LiVE SCORE ID = " + req.params.liveScoreID);
+  findMatch(req.params.liveScoreID).then(
     function (value) {
       console.log(`Point 1:${value}`);
       if (value == null || false) {
@@ -251,7 +274,29 @@ app.get("/viewstats/:matchID", function (req, res, next) {
       } else {
         res.sendFile(__dirname + "/display/matchstats.html");
         res.redirect(
-          "../display/matchstats.html?" + "matchID=" + req.params.matchID
+          "../display/matchstats.html?" +
+            "matchID=" +
+            value.matchID +
+            "&liveScoreID=" +
+            value.liveScoreI +
+            "&tourName=" +
+            value.tourName +
+            "&matchName=" +
+            value.roundName +
+            "&homePlayer=" +
+            value.homePlayer +
+            "&awayPlayer=" +
+            value.awayPlayer +
+            "&homeGameScore=" +
+            value.result[0].gameScore.home +
+            "&awayGameScore=" +
+            value.result[0].gameScore.away +
+            "&homePointScore=" +
+            value.result[0].pointScore.home +
+            "&awayPointScore=" +
+            value.result[0].pointScore.away +
+            "&serveSide=" +
+            value.result[0].pointScore.serveSide
         );
       }
     },

@@ -373,7 +373,12 @@
             res = JSON.parse(this.responseText);
             console.log(res);
             if (res.status == "ok") {
-              alert("Kết nối thành công. Mã trận đấu:" + res.matchID);
+              alert(
+                "Kết nối thành công. Mã trận đấu:" +
+                  res.matchID +
+                  " và mã xem live score:" +
+                  res.liveScoreID
+              );
               window.location.replace(
                 "./control/control.html?id=" + res.matchID
               );

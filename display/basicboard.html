@@ -146,7 +146,7 @@
         </div>
       </div>
 
-      <div class="match_detail_info" id="matchID">matchID</div>
+      <div class="match_detail_info" id="liveScoreID">Mã Live Score</div>
       <div class="match_detail_info" id="tourName">Giải đấu</div>
       <div class="match_detail_info" id="matchName">Vòng đấu</div>
     </section>
@@ -182,13 +182,15 @@
       document.getElementById("awayPoint").innerHTML =
         pointConvert[urlParams.get("awayPointScore")];
 
-      document.getElementById("matchID").innerHTML = urlParams.get("matchID");
+      document.getElementById("liveScoreID").innerHTML = urlParams.get(
+        "liveScoreID"
+      );
       document.getElementById("tourName").innerHTML = urlParams.get("tourName");
       document.getElementById("matchName").innerHTML = urlParams.get(
         "matchName"
       );
 
-      socket.on("/display/" + urlParams.get("matchID"), function (msg) {
+      socket.on("/display/" + urlParams.get("liveScoreID"), function (msg) {
         console.log("sent from server:" + JSON.stringify(msg));
         document.getElementById("matchID").innerHTML = urlParams.get("matchID");
         document.getElementById("homeInputId").innerHTML = msg.homePlayer;

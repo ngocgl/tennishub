@@ -6,8 +6,8 @@ function init() {
   const queryString = window.location.search;
 
   const urlParams = new URLSearchParams(queryString);
-  let matchID = urlParams.get("matchID");
-  console.log(matchID);
+  let liveScoreID = urlParams.get("liveScoreID");
+  console.log(liveScoreID);
   var socket = io();
   const pointConvert = {
     0: "0",
@@ -17,7 +17,7 @@ function init() {
     4: "Adv",
   };
 
-  socket.on("/display/" + matchID, function (msg) {
+  socket.on("/display/" + liveScoreID, function (msg) {
     drawChart(msg);
   });
 }

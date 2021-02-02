@@ -21,6 +21,7 @@ function Match(matchID, homePlayer, awayPlayer, clb, date) {
   //Data structure for a match
   this.data = {
     matchID: matchID || "5ff4993dd7caee067caa766b", //defaul
+    liveScoreID: liveScoreID || "ABC123", //ID for live score
     result: [],
     homePlayer: homePlayer,
     awayPlayer: awayPlayer,
@@ -454,19 +455,22 @@ function Set() {
   //function in Set Object
 }
 
-function getMatchID() {
+function getIDs() {
   //read matchID
   const queryString = window.location.search;
   console.log(queryString);
   const urlParams = new URLSearchParams(queryString);
   const matchID = urlParams.get("id");
-  console.log("MatchID:" + matchID);
-  return matchID;
+
+  let liveScoreID = urlParams.get("liveScoreID");
+  console.log(matchID, liveScoreID);
+  return [matchID, liveScoreID];
 }
 
 //-----------BEGIN----------
 
-var M1 = new Match(getMatchID(), "A", "B", "SMT");
+let IDs = getIDs();
+var M1 = new Match(IDs[0], IDs[1], "A", "B", "SMT");
 
 //Bridge from HTML to JS
 function sendToGateway(id) {
