@@ -1,5 +1,6 @@
 //define Global variables:
 const url = "https://onetennis.herokuapp.com";
+//const url = "localhost:3000";
 const pointConvert = {
   0: "0",
   1: "15",
@@ -7,8 +8,6 @@ const pointConvert = {
   3: "40",
   4: "Adv",
 };
-
-function updateHTMLState() {}
 
 function Match(matchID, liveScoreID, homePlayer, awayPlayer, clb, date) {
   this.HTMLElementState = {
@@ -467,10 +466,31 @@ function getIDs() {
   return [matchID, liveScoreID];
 }
 
+getMatchData = async function (matchID) {
+  let xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+  xmlhttp.open("POST", url + "/getMatchData");
+  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xmlhttp.send(JSON.stringify({ matchID: matchID }));
+  let parrent = this;
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      res = JSON.parse(this.responseText);
+      if (res.status == "ok") {
+        console.log(res);
+        this.data = res.data;
+
+        return res.data;
+      }
+      return false;
+    }
+  };
+};
+
 //-----------BEGIN----------
 
 let IDs = getIDs();
 var M1 = new Match(IDs[0], IDs[1], "A", "B", "SMT");
+getMatchData();
 
 //Bridge from HTML to JS
 function sendToGateway(id) {

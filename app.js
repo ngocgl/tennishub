@@ -215,6 +215,23 @@ app.post("/updatePoint", function (req, res, next) {
   );
 });
 
+app.post("/getMatchData", function (req, res, next) {
+  let matchID = req.body.matchID;
+  findMatch(matchID).then(
+    function (value) {
+      console.log(`Point 1:${value}`);
+      if (value == null || false) {
+        res.json({ status: "match not found" });
+      } else {
+        res.json(value);
+      }
+    },
+    function (err) {
+      res.json({ status: "error" });
+    }
+  );
+});
+
 app.get("/match", function (req, res, next) {
   console.log(req.body);
   console.log(newMatch.matchID);

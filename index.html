@@ -40,8 +40,18 @@
         res = JSON.parse(this.responseText);
         console.log(res);
         if (res.status == "ok") {
-          alert("Kết nối thành công. Mã trận đấu:" + res.matchID);
-          window.location.replace("./control/control.html?id=" + res.matchID);
+          alert(
+            "Kết nối thành công. Mã trận đấu:" +
+              res.matchID +
+              ". Mã Live Score:" +
+              res.liveScoreID
+          );
+          window.open(
+            "./control/control.html?id=" +
+              res.matchID +
+              "&liveScoreID=" +
+              res.liveScoreID
+          );
           /*let xmlhttp2 = new XMLHttpRequest(); // new HttpRequest instance
             xmlhttp2.open("GET", url + "/controlBoard/" + res.matchID);
             xmlhttp2.send();*/
