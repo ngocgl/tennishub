@@ -9,7 +9,8 @@ const pointConvert = {
   4: "Adv",
 };
 
-function Match(matchID, liveScoreID, homePlayer, awayPlayer, clb, date) {
+function Match(data) {
+  this.data = data;
   this.HTMLElementState = {
     serveSide: "home",
     serveType: "1st",
@@ -18,7 +19,7 @@ function Match(matchID, liveScoreID, homePlayer, awayPlayer, clb, date) {
   this.homeColor = "rgba(54,162,235,1)";
   this.awayColor = "yellow";
   //Data structure for a match
-  this.data = {
+  /* this.data = {
     matchID: matchID || "5ff4993dd7caee067caa766b", //defaul
     liveScoreID: liveScoreID || "ABC123", //ID for live score
     result: [],
@@ -28,11 +29,11 @@ function Match(matchID, liveScoreID, homePlayer, awayPlayer, clb, date) {
     date: "01/02/2021",
     matchName: "Vòng Loại",
     tourName: "Giải SMT Open",
-  };
+  };*/
 
-  this.homePlayer = homePlayer;
-  this.awayPlayer = awayPlayer;
   let currentSet = new Set();
+  currentSet = this.data.result[this.data.result.length];
+
   this.addSet = function () {
     this.data.result.push(currentSet);
     currentSet = new Set();
@@ -177,17 +178,6 @@ function Match(matchID, liveScoreID, homePlayer, awayPlayer, clb, date) {
     //print out current Set
     console.log("Game", currentSet.gameScore);
     console.log("Point", currentSet.pointScore);
-  };
-
-  this.changeName = function (arg) {
-    if (arg.length == 2) {
-      this.homePlayer = arg[0];
-      this.awayPlayer = arg[1];
-    } else {
-      if (arg.length == 1) {
-        this.homePlayer = arg[0];
-      }
-    }
   };
 
   this.inputPoint = function (id) {
@@ -354,7 +344,28 @@ function Match(matchID, liveScoreID, homePlayer, awayPlayer, clb, date) {
     }
     console.log(obj.HTMLElementState);
   };
+  this.updateData = function () {
+    document.querySelector("#homeGame").innerHTML = currentSet.gameScore.home;
+    document.querySelector("#awayGame").innerHTML = currentSet.gameScore.away;
+    document.querySelector("#awayPoint").innerHTML =
+      pointConvert[currentSet.gameScore.away];
+    document.querySelector("#homePoint").innerHTML =
+      pointConvert[currentSet.gameScore.home];
+    document.getElementById("homeInputId").value = this.data.homePlayer;
+    document.getElementById("awayInputId").value = this.data.awayPlayer;
 
+    document.getElementById("1st2ndServe").checked = false;
+    document.getElementById("decisionPoint").checked = false;
+    if (currentSet.pointScore.serveSide == "home") {
+      document.querySelector("#homeServe").style.opacity = 100;
+      document.querySelector("#awayServe").style.opacity = 0;
+      document.getElementById("homeAwaySwitch").checked = false; //Switch to Home
+    } else {
+      document.querySelector("#homeServe").style.opacity = 0;
+      document.querySelector("#awayServe").style.opacity = 100;
+      document.getElementById("homeAwaySwitch").checked = true; //Switch to Away
+    }
+  };
   let changeServeType = function (obj) {
     var checkBox = document.getElementById("1st2ndServe");
     if (checkBox.checked == true) {
@@ -472,25 +483,27 @@ getMatchData = async function (matchID) {
   xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xmlhttp.send(JSON.stringify({ matchID: matchID }));
   let parrent = this;
-  xmlhttp.onreadystatechange = function () {
+  return (xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       res = JSON.parse(this.responseText);
       if (res.status == "ok") {
         console.log(res);
-        this.data = res.data;
-
         return res.data;
       }
       return false;
     }
-  };
+  });
 };
 
 //-----------BEGIN----------
 
 let IDs = getIDs();
-var M1 = new Match(IDs[0], IDs[1], "A", "B", "SMT");
-getMatchData();
+let data = getMatchData();
+console.log(data);
+if (data != false) {
+  var M1 = new Match(data);
+  M1.updateData();
+}
 
 //Bridge from HTML to JS
 function sendToGateway(id) {

@@ -223,7 +223,10 @@ app.post("/getMatchData", function (req, res, next) {
       if (value == null || false) {
         res.json({ status: "match not found" });
       } else {
-        res.json(value);
+        res.json({
+          status: "ok",
+          data: value,
+        });
       }
     },
     function (err) {
@@ -295,7 +298,7 @@ app.get("/viewstats/:liveScoreID", function (req, res, next) {
             "matchID=" +
             value.matchID +
             "&liveScoreID=" +
-            value.liveScoreI +
+            value.liveScoreID +
             "&tourName=" +
             value.tourName +
             "&matchName=" +
