@@ -498,7 +498,7 @@ function getIDs() {
 
 let IDs = getIDs();
 
-var M1 = new Match(data);
+var M1 = new Match();
 M1.updateData(IDs[0]);
 
 //Bridge from HTML to JS
