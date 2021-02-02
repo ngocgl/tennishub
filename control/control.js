@@ -9,8 +9,8 @@ const pointConvert = {
   4: "Adv",
 };
 
-function Match(data) {
-  this.data = data;
+function Match() {
+  this.data = Object;
   this.HTMLElementState = {
     serveSide: "home",
     serveType: "1st",
@@ -265,6 +265,23 @@ function Match(data) {
   };
 
   //-----Start define function inside Match Object
+  this.getMatchData = async function (matchID) {
+    let xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+    xmlhttp.open("POST", url + "/getMatchData");
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({ matchID: matchID }));
+    let parrent = this;
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        res = JSON.parse(this.responseText);
+        if (res.status == "ok") {
+          console.log(res);
+          parrent.data = res.data;
+        }
+        return false;
+      }
+    };
+  };
 
   this.newMatch = async function () {
     //newMatch() create new match with {clb, players, date) and send to server
@@ -477,33 +494,12 @@ function getIDs() {
   return [matchID, liveScoreID];
 }
 
-getMatchData = async function (matchID) {
-  let xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
-  xmlhttp.open("POST", url + "/getMatchData");
-  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xmlhttp.send(JSON.stringify({ matchID: matchID }));
-  let parrent = this;
-  return (xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      res = JSON.parse(this.responseText);
-      if (res.status == "ok") {
-        console.log(res);
-        return res.data;
-      }
-      return false;
-    }
-  });
-};
-
 //-----------BEGIN----------
 
 let IDs = getIDs();
-let data = await getMatchData();
-console.log(data);
-if (data != false) {
-  var M1 = new Match(data);
-  M1.updateData();
-}
+
+var M1 = new Match(data);
+M1.updateData(IDs[0]);
 
 //Bridge from HTML to JS
 function sendToGateway(id) {
