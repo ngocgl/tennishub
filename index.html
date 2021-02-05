@@ -62,12 +62,12 @@
 
   function viewLiveScore() {
     let liveScoreID = document.getElementById("liveCode_Id").value;
-    window.location.replace("./display/" + liveScoreID);
+    window.location.assign("./display/" + liveScoreID);
   }
 
   function viewStats() {
     let matchID = document.getElementById("match_Id").value;
-    window.location.replace("./viewstats/" + matchID);
+    window.location.assign("./viewstats/" + matchID);
   }
 </script>
 
