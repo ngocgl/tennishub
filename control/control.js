@@ -85,6 +85,7 @@ function Match() {
 
   this.addPoint = function (who, pointType) {
     //who [home,away]
+    console.log("point 2:", currentSet);
     currentSet.stats.totalPoint++;
     currentSet.stats[who].totalPointWon++;
     currentSet.stats[who][pointType]++;
