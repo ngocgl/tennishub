@@ -16,6 +16,26 @@ function init() {
     3: "40",
     4: "Adv",
   };
+  //GET MATCH DATA
+
+  let xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+  xmlhttp.open("POST", url + "/getMatchData");
+  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xmlhttp.send(
+    JSON.stringify({
+      matchID: liveScoreID,
+    })
+  );
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      res = JSON.parse(this.responseText);
+      if (res.status == "ok") {
+        console.log(res);
+        drawChart(res.data);
+      }
+      return false;
+    }
+  };
 
   socket.on("/display/" + liveScoreID, function (msg) {
     drawChart(msg);

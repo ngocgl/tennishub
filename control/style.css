@@ -12,11 +12,9 @@
   grid-template-areas:
     "panel panel"
     "control control"
-    "graph1 graph1"
-    "graph2 graph3"
-    "graph4 graph5"
-    "graph6 graph7";
+    "graph1 graph1";
   grid-gap: 0.1rem;
+  user-select: text;
 }
 #scoreboard-div {
   grid-area: panel;
@@ -55,11 +53,6 @@
   grid-gap: 0.1rem;
 }
 
-#barChart {
-  grid-area: graph1;
-  background-color: #c4c4c4;
-}
-
 #serveGraphAreaGrid {
   grid-area: graph2;
   background: #c4c4c4;
@@ -78,8 +71,20 @@
   background: #c4c4c4;
 }
 #showCharts {
-  grid-area: graph6;
+  grid-area: graph1;
+  display: grid;
   background: #c4c4c4;
+  vertical-align: middle;
+  align-items: center;
+  text-align: left;
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: left;
+  user-select: text;
 }
 
 #background_img {

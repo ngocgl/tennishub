@@ -31,7 +31,7 @@ function Match() {
     tourName: "Giải SMT Open",
   };*/
 
-  let currentSet = new Set();
+  var currentSet = new Set();
 
   this.addSet = function () {
     this.data.result.push(currentSet);
@@ -269,18 +269,18 @@ function Match() {
     xmlhttp.open("POST", url + "/getMatchData");
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlhttp.send(JSON.stringify({ matchID: matchID }));
-    let parrent = this;
+    let parent = this;
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         res = JSON.parse(this.responseText);
         if (res.status == "ok") {
           console.log(res);
-          parrent.data = res.data;
+          parent.data = res.data;
+          parent.updateData(matchID);
         }
         return false;
       }
     };
-    currentSet = this.data.result[this.data.result.length];
   };
 
   this.newMatch = async function () {
@@ -362,6 +362,15 @@ function Match() {
     console.log(obj.HTMLElementState);
   };
   this.updateData = function () {
+    let i = this.data.result.length;
+    if (i == 0) {
+      currentSet = this.data.result[0];
+    } else {
+      currentSet = this.data.result[i - 1];
+    }
+
+    console.log(currentSet);
+
     document.querySelector("#homeGame").innerHTML = currentSet.gameScore.home;
     document.querySelector("#awayGame").innerHTML = currentSet.gameScore.away;
     document.querySelector("#awayPoint").innerHTML =
@@ -370,7 +379,18 @@ function Match() {
       pointConvert[currentSet.gameScore.home];
     document.getElementById("homeInputId").value = this.data.homePlayer;
     document.getElementById("awayInputId").value = this.data.awayPlayer;
-
+    document.getElementById("live_score_ID").innerHTML =
+      "Mã Live Score:" +
+      this.data.liveScoreID +
+      ". Link xem trực tiếp: " +
+      url +
+      "/display/" +
+      this.data.liveScoreID;
+    document.getElementById("match_stats_ID").innerHTML =
+      "Link xem phân tích kỹ thuật trận đấu:" +
+      url +
+      "/display/matchstats.html?liveScoreID=" +
+      this.data.liveScoreID;
     document.getElementById("1st2ndServe").checked = false;
     document.getElementById("decisionPoint").checked = false;
     if (currentSet.pointScore.serveSide == "home") {
@@ -499,7 +519,7 @@ function getIDs() {
 let IDs = getIDs();
 
 var M1 = new Match();
-M1.updateData(IDs[0]);
+M1.getMatchData(IDs[0]);
 
 //Bridge from HTML to JS
 function sendToGateway(id) {
