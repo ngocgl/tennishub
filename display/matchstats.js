@@ -4,6 +4,7 @@ init();
 function init() {
   //get matchID from URL
   const queryString = window.location.search;
+  const url = "https://onetennis.herokuapp.com";
 
   const urlParams = new URLSearchParams(queryString);
   let liveScoreID = urlParams.get("liveScoreID");
