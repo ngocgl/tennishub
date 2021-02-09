@@ -382,7 +382,9 @@ function Match() {
     document.getElementById("awayInputId").value = this.data.awayPlayer;
     document.getElementById("live_score_ID").innerHTML =
       "Mã Live Score:" +
+      "<span style=color:red>" +
       this.data.liveScoreID +
+      "</span>" +
       ". Link xem trực tiếp: " +
       url +
       "/display/" +
@@ -511,6 +513,7 @@ function getIDs() {
   const matchID = urlParams.get("id");
 
   let liveScoreID = urlParams.get("liveScoreID");
+  let controlBoardStyle = urlParams.get("controlBoardStyle");
   console.log(matchID, liveScoreID);
   return [matchID, liveScoreID];
 }

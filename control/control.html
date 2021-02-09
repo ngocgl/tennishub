@@ -86,9 +86,6 @@
             ><!--END-->
           </div></label
         >
-        <button class="btn green" id="newMatch" onclick="sendToGateway(id)">
-          NEW
-        </button>
 
         <button class="btn green" id="homeWinPoint" onclick="sendToGateway(id)">
           +
@@ -113,6 +110,28 @@
         >
           -
         </button>
+        <button class="btn green" id="homeWinGame" onclick="sendToGateway(id)">
+          +
+        </button>
+        <button class="btn green" id="homeLostGame" onclick="sendToGateway(id)">
+          -
+        </button>
+        <button class="btn orange" id="resetGame" onclick="sendToGateway(id)">
+          Reset
+        </button>
+        <button class="btn green" id="awayWinGame" onclick="sendToGateway(id)">
+          +
+        </button>
+        <button class="btn green" id="awayLostGame" onclick="sendToGateway(id)">
+          -
+        </button>
+        <p id="textServe">Serve</p>
+        <p id="textPoint">Point</p>
+
+        <p id="textGame">Game</p>
+      </div>
+      <div id="adv-board">
+        <p id="textAdv">Adv</p>
         <button class="btn green" id="homeWinAce" onclick="sendToGateway(id)">
           ACE
         </button>
@@ -173,48 +192,23 @@
         <button class="btn blue" id="awayNetLost" onclick="sendToGateway(id)">
           Net Lost
         </button>
-
-        <button class="btn green" id="homeWinGame" onclick="sendToGateway(id)">
-          +
-        </button>
-        <button class="btn green" id="homeLostGame" onclick="sendToGateway(id)">
-          -
-        </button>
-        <button class="btn orange" id="resetGame" onclick="sendToGateway(id)">
-          Reset
-        </button>
-        <button class="btn green" id="awayWinGame" onclick="sendToGateway(id)">
-          +
-        </button>
-        <button class="btn green" id="awayLostGame" onclick="sendToGateway(id)">
-          -
-        </button>
-
-        <p id="textServe">Serve</p>
-        <p id="textPoint">Point</p>
-        <p id="textAdv">Adv</p>
-        <p id="textGame">Game</p>
-      </div>
-
-      <div id="barChart">
-        <canvas id="myChart" width="300" height="300"></canvas>
-      </div>
-      <div id="serveGraphAreaGrid">
-        <canvas id="serveChart" width="160" height="200"></canvas>
-      </div>
-      <div id="serve1stInGrid">
-        <canvas id="serve1stInChart" width="160" height="200"></canvas>
-      </div>
-      <div id="serve1stWonGrid">
-        <canvas id="serve1stWonChart" width="160" height="200"></canvas>
-      </div>
-      <div id="serve2ndWonGrid">
-        <canvas id="serve2ndWonChart" width="160" height="200"></canvas>
       </div>
       <div id="showCharts">
         <p class="grid_p" id="live_score_ID"></p>
         <p class="grid_p" id="match_stats_ID"></p>
       </div>
+      <script>
+        const queryString = window.location.search;
+
+        const urlParams = new URLSearchParams(queryString);
+
+        let controlBoardStyle = urlParams.get("controlBoardStyle");
+        if (controlBoardStyle == 1) {
+          document.getElementById("adv-board").style.display = "none";
+          document.getElementById("showCharts").style.gridArea = "adv";
+          document.getElementById("match_stats_ID").style.display = "none";
+        }
+      </script>
     </div>
   </body>
 </html>

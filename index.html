@@ -38,6 +38,8 @@
       clbName: document.getElementById("clb_Id").value,
       tourName: document.getElementById("tour_Id").value,
       roundName: document.getElementById("round_Id").value,
+      controlBoardStyle: document.getElementById("control-board-style-id")
+        .value,
     };
 
     let xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
@@ -60,7 +62,9 @@
             "./control/control.html?id=" +
               res.matchID +
               "&liveScoreID=" +
-              res.liveScoreID
+              res.liveScoreID +
+              "&controlBoardStyle=" +
+              data.controlBoardStyle
           );
           /*let xmlhttp2 = new XMLHttpRequest(); // new HttpRequest instance
             xmlhttp2.open("GET", url + "/controlBoard/" + res.matchID);
@@ -141,10 +145,14 @@
         />
       </div>
 
-      <select class="form-select" aria-label="Default select example">
+      <select
+        class="form-select"
+        id="control-board-style-id"
+        aria-label="Default select example"
+      >
         <option selected>Lựa chọn bảng điều khiển</option>
         <option value="1">Đơn giản</option>
-        <option value="2">Phức tạp</option>
+        <option value="2">Nâng cao</option>
       </select>
 
       <button

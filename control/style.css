@@ -8,10 +8,11 @@
   display: grid;
   height: 100vh;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 140px 320px 2fr repeat(3, minmax(280px, 1fr));
+  grid-template-rows: 140px repeat(3, minmax(170px, 1fr));
   grid-template-areas:
     "panel panel"
     "control control"
+    "adv adv"
     "graph1 graph1";
   grid-gap: 0.1rem;
   user-select: text;
@@ -42,34 +43,26 @@
   display: grid;
 
   grid-template-columns: 1fr repeat(5, 60px);
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:
     "text1 bt1 bt2 pt3 bt4 bt5"
     "text2 bt6 bt7 bt8 bt9 bt10"
-    "text6 bt26 bt27 bt28 bt29 bt30"
+    "text6 bt26 bt27 bt28 bt29 bt30";
+  grid-gap: 0.1rem;
+}
+#adv-board {
+  grid-area: adv;
+  background: #c4c4c4;
+  display: grid;
+  grid-template-columns: 1fr repeat(5, 60px);
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
     "text3 bt11 bt12 bt13 bt14 bt15"
     "text4 bt16 bt17 bt18 bt19 bt20"
     "text5 bt21 bt22 bt23 bt24 bt25";
   grid-gap: 0.1rem;
 }
 
-#serveGraphAreaGrid {
-  grid-area: graph2;
-  background: #c4c4c4;
-}
-
-#serve1stInGrid {
-  grid-area: graph3;
-  background: #c4c4c4;
-}
-#serve1stWonGrid {
-  grid-area: graph4;
-  background: #c4c4c4;
-}
-#serve2ndWonGrid {
-  grid-area: graph5;
-  background: #c4c4c4;
-}
 #showCharts {
   grid-area: graph1;
   display: grid;
@@ -106,19 +99,19 @@
 
 #switch1 {
   position: relative;
-  top: 16px;
+  top: 2px;
   left: 10px;
 }
 
 #switch2 {
   position: relative;
-  top: 16px;
+  top: 2px;
   left: 50px;
 }
 
 #switch3 {
   position: relative;
-  top: 16px;
+  top: 2px;
   left: 90px;
 }
 .switch input {
