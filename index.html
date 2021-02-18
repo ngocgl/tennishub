@@ -6,7 +6,7 @@
 />
 <style>
   body {
-    font-size: 4rem;
+    font-size: 2rem;
   }
   h1,
   .input-group,
@@ -14,35 +14,14 @@
   .form-control,
   .form-select,
   .btn {
-    font-size: 3rem;
+    font-size: 2rem;
     padding: 0 20px;
   }
 
   .container-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, minmax(420px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     margin: 5px;
-  }
-
-  @media screen and (min-width: 960px) {
-    .container-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      margin: 10px;
-    }
-    body {
-      font-size: 1rem;
-    }
-    h1,
-    .input-group,
-    .input-group-text,
-    .form-control,
-    .form-select,
-    .btn {
-      font-size: 1rem;
-      padding: 0 20px;
-    }
   }
 </style>
 <script
