@@ -5,9 +5,6 @@
   crossorigin="anonymous"
 />
 <style>
-  .col-6 {
-    border: 1px solid #f0ce0c;
-  }
   body {
     font-size: 4rem;
   }
@@ -17,7 +14,35 @@
   .form-control,
   .form-select,
   .btn {
-    font-size: 4rem;
+    font-size: 3rem;
+    padding: 0 20px;
+  }
+
+  .container-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, minmax(420px, 1fr));
+    margin: 5px;
+  }
+
+  @media screen and (min-width: 960px) {
+    .container-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin: 10px;
+    }
+    body {
+      font-size: 1rem;
+    }
+    h1,
+    .input-group,
+    .input-group-text,
+    .form-control,
+    .form-select,
+    .btn {
+      font-size: 1rem;
+      padding: 0 20px;
+    }
   }
 </style>
 <script
@@ -86,8 +111,8 @@
   }
 </script>
 <body>
-  <div class="row">
-    <div class=".col-">
+  <div class="container-grid">
+    <div class="half-part" id="create-match-id">
       <h1 class="text-center">
         <span class="border border-primary">Tạo trận đấu</span>
       </h1>
@@ -165,7 +190,7 @@
       </button>
     </div>
 
-    <div class=".col-">
+    <div class="half-part" id="view-match-id">
       <h1 class="text-center">
         <span class="border border-primary">Xem trận đấu</span>
       </h1>
